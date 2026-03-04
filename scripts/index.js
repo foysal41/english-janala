@@ -40,6 +40,10 @@ const removeActive=()=>{
     lessionButtons.forEach(btn=>btn.classList.remove('active'))
 }
 
+
+
+
+
 const loadWordDetails=async (id)=>{
     const url = `https://openapi.programming-hero.com/api/word/${id}`
     
@@ -141,3 +145,18 @@ const displayLesson=(lessons)=>{
 leadLessons()
 
 
+document.getElementById('btn-search').addEventListener('click', ()=>{
+    removeActive();
+    const input = document.getElementById('input-search');
+    const searchValue = input.value.trim().toLowerCase();
+
+    fetch('https://openapi.programming-hero.com/api/words/all')
+    .then(res=>res.json())
+    .then((data) => {
+        const allWord = data.data;
+        const filterWords = allWord.filter((word) =>
+            word.word.toLowerCase().includes(searchValue)
+        );
+        displayLevelWord(filterWords);
+    });
+} )
